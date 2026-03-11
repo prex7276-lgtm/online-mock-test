@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prex Guru - Photo Resizer</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eef2f3; text-align: center; padding: 20px; color: #333; }
+        .card { background: white; max-width: 450px; margin: auto; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { color: #007bff; margin-bottom: 10px; }
+        .upload-section { border: 2px dashed #007bff; padding: 20px; border-radius: 10px; margin: 20px 0; background: #f8fbff; }
+        input[type="file"] { margin: 10px 0; width: 100%; }
+        #preview { max-width: 100%; border-radius: 8px; margin-top: 15px; display: none; border: 1px solid #ddd; }
+        .btn { background: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #218838; }
+        .info { font-size: 14px; color: #666; margin-top: 15px; }
+        #status { font-weight: bold; color: #d9534f; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Prex Guru Tools</h1>
+        <p>GDS और राजस्थान भर्ती के लिए फोटो छोटा करें</p>
+
+        <div class="upload-section">
+            <input type="file" id="imageInput" accept="image/*">
+            <p class="info">फोटो चुनें (JPG/PNG)</p>
+        </div>
+
+        <img id="preview" src="" alt="Preview">
+        <p id="status"></p>
+
+        <button class="btn" id="downloadBtn" style="display:none;">कम्प्रेस फोटो डाउनलोड करें</button>
+        
+        <div class="info">
+            <p>यह टूल फोटो को ऑटोमैटिक <b>50KB से नीचे</b> कर देगा।</p>
+        </div>
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const status = document.getElementById('status');
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    // कैनवास बनाकर इमेज को छोटा करना
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    // साइज सेट करना (800px चौड़ाई काफी है)
+                    const scale = 800 / img.width;
+                    canvas.width = 800;
+                    canvas.height = img.height * scale;
+
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    // 0.5 क्वालिटी का मतलब है फोटो का साइज काफी कम हो जाएगा
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.2);
+                    
+                    preview.src = dataUrl;
+                    preview.style.display = 'block';
+                    status.innerText = "फोटो तैयार है!";
+
+                    // डाउनलोड बटन सेटअप
+                    downloadBtn.style.display = 'block';
+                    downloadBtn.onclick = function() {
+                        const link = document.createElement('a');
+                        link.download = 'prexguru_compressed.jpg';
+                        link.href = dataUrl;
+                        link.click();
+                    };
+                };
+            };
+        });
+    </script>
+
+</body>
+</html>
