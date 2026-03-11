@@ -3,29 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prex Guru - Photo Resizer</title>
+    <title>Prex Guru Tools - राजस्थान भर्ती फोटो रिसाइज़र & Latest Jobs</title>
+    <meta name="description" content="GDS, राजस्थान पुलिस, हाई कोर्ट भर्ती के लिए फोटो को 20KB-50KB में बदलें। साथ ही पाएं ताज़ा सरकारी नौकरी अपडेट।">
+    
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eef2f3; text-align: center; padding: 20px; color: #333; }
-        .card { background: white; max-width: 450px; margin: auto; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h1 { color: #007bff; margin-bottom: 10px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; text-align: center; margin: 0; padding: 0; }
+        .header { background: #007bff; color: white; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .notice-board { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; margin: 15px; border-radius: 10px; font-weight: bold; }
+        .card { background: white; max-width: 450px; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .upload-section { border: 2px dashed #007bff; padding: 20px; border-radius: 10px; margin: 20px 0; background: #f8fbff; }
-        input[type="file"] { margin: 10px 0; width: 100%; }
-        #preview { max-width: 100%; border-radius: 8px; margin-top: 15px; display: none; border: 1px solid #ddd; }
-        .btn { background: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%; transition: 0.3s; }
-        .btn:hover { background: #218838; }
-        .info { font-size: 14px; color: #666; margin-top: 15px; }
-        #status { font-weight: bold; color: #d9534f; margin-top: 10px; }
+        #preview { max-width: 100%; border-radius: 8px; margin-top: 15px; display: none; }
+        .btn { background: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
+        .whatsapp-btn { background: #25D366; text-decoration: none; display: inline-block; margin-top: 20px; padding: 10px 20px; color: white; border-radius: 20px; font-weight: bold; }
+        .footer { margin-top: 30px; font-size: 12px; color: #777; padding-bottom: 20px; }
+        marquee { background: #d1ecf1; color: #0c5460; padding: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
+    <div class="header">
         <h1>Prex Guru Tools</h1>
-        <p>GDS और राजस्थान भर्ती के लिए फोटो छोटा करें</p>
+        <p>राजस्थान भर्ती स्पेशल पोर्टल</p>
+    </div>
 
+    <marquee>🔥 लेटेस्ट अपडेट: राजस्थान हाई कोर्ट 4th Grade परीक्षा अप्रैल में | GDS नई लिस्ट जारी | SSC GD फिजिकल डेट आउट 🔥</marquee>
+
+    <div class="notice-board">
+        📢 <b>नोटिस बोर्ड:</b> <br>
+        1. राजस्थान पुलिस एडमिट कार्ड जल्द! <br>
+        2. पटवारी नई भर्ती नोटिफिकेशन जारी। <br>
+        3. फॉर्म भरने के लिए नीचे फोटो छोटा करें।
+    </div>
+
+    <div class="card">
+        <h2>Photo Resizer (20KB-50KB)</h2>
         <div class="upload-section">
             <input type="file" id="imageInput" accept="image/*">
-            <p class="info">फोटो चुनें (JPG/PNG)</p>
+            <p>फोटो चुनें (GDS/Police/High Court)</p>
         </div>
 
         <img id="preview" src="" alt="Preview">
@@ -33,9 +47,13 @@
 
         <button class="btn" id="downloadBtn" style="display:none;">कम्प्रेस फोटो डाउनलोड करें</button>
         
-        <div class="info">
-            <p>यह टूल फोटो को ऑटोमैटिक <b>50KB से नीचे</b> कर देगा।</p>
-        </div>
+        <a id="waShare" class="whatsapp-btn" href="#" target="_blank">
+            📲 दोस्तों को WhatsApp पर भेजें
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>Made with ❤️ by Prex Guru | Pali, Rajasthan</p>
     </div>
 
     <script>
@@ -43,6 +61,11 @@
         const preview = document.getElementById('preview');
         const downloadBtn = document.getElementById('downloadBtn');
         const status = document.getElementById('status');
+        const waShare = document.getElementById('waShare');
+
+        // WhatsApp Share Link Setup
+        const siteUrl = window.location.href;
+        waShare.href = "https://api.whatsapp.com/send?text=भाई, सरकारी फॉर्म के लिए फोटो का साइज यहाँ से छोटा करो, बहुत मस्त साइट है: " + siteUrl;
 
         imageInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -54,29 +77,26 @@
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = function() {
-                    // कैनवास बनाकर इमेज को छोटा करना
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-
-                    // साइज सेट करना (800px चौड़ाई काफी है)
-                    const scale = 800 / img.width;
-                    canvas.width = 800;
+                    
+                    const scale = 600 / img.width;
+                    canvas.width = 600;
                     canvas.height = img.height * scale;
 
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                    // 0.5 क्वालिटी का मतलब है फोटो का साइज काफी कम हो जाएगा
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.2);
+                    // क्वालिटी 0.3 रखी है ताकि साइज 20-40KB के बीच आए
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.3);
                     
                     preview.src = dataUrl;
                     preview.style.display = 'block';
-                    status.innerText = "फोटो तैयार है!";
+                    status.innerText = "फोटो तैयार है! साइज कम कर दिया गया है।";
 
-                    // डाउनलोड बटन सेटअप
                     downloadBtn.style.display = 'block';
                     downloadBtn.onclick = function() {
                         const link = document.createElement('a');
-                        link.download = 'prexguru_compressed.jpg';
+                        link.download = 'prexguru_photo.jpg';
                         link.href = dataUrl;
                         link.click();
                     };
