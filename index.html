@@ -1,250 +1,79 @@
 <!DOCTYPE html>
 <html lang="hi">
-<head><div class="card" style="border-top: 5px solid #ff5722; background: #fffcfb;">
-    <h2 style="color: #ff5722;">🚀 Prex Guru Career Dashboard</h2>
-    <p>अपनी पढ़ाई चुनें और सब कुछ (Job, Form, Result) एक जगह पाएं!</p>
-    
-    <div style="text-align: left; margin-bottom: 15px;">
-        <label><b>1. अपनी योग्यता चुनें (Education):</b></label>
-        <select id="edu" style="width: 100%; padding: 12px; margin-top: 5px; border-radius: 5px; border: 1px solid #ff5722;">
-            <option value="8">8वीं पास</option>
-            <option value="10">10वीं पास</option>
-            <option value="12">12वीं पास</option>
-            <option value="graduate">Graduate (BA, BSc, B.Com)</option>
-            <option value="bed">B.Ed / BSTC</option>
-            <option value="iti">ITI / Diploma</option>
-        </select>
-    </div>
-
-    <button class="btn" onclick="findEverything()" style="background: #ff5722; width: 100%; font-weight: bold;">मैजिक देखें (Show Results) ✨</button>
-
-    <div id="dashboardResults" style="margin-top: 20px; display: none; text-align: left;">
-        
-        <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; border-left: 5px solid #2196f3; margin-bottom: 15px;">
-            <h4 style="margin: 0 0 10px 0; color: #0d47a1;">🆕 आपके लिए नई भर्तियाँ (Apply Links):</h4>
-            <ul id="jobLinks" style="padding-left: 20px; list-style-type: '👉 ';"></ul>
-        </div>
-
-        <div style="background: #f1f8e9; padding: 15px; border-radius: 10px; border-left: 5px solid #4caf50;">
-            <h4 style="margin: 0 0 10px 0; color: #1b5e20;">📊 ताज़ा रिज़ल्ट (Latest Results):</h4>
-            <ul id="resultLinks" style="padding-left: 20px; list-style-type: '✅ ';"></ul>
-        </div>
-        
-    </div>
-</div>
-
-<script>
-function findEverything() {
-    const edu = document.getElementById('edu').value;
-    const dash = document.getElementById('dashboardResults');
-    const jobList = document.getElementById('jobLinks');
-    const resultList = document.getElementById('resultLinks');
-
-    dash.style.display = 'block';
-    jobList.innerHTML = "";
-    resultList.innerHTML = "";
-
-    // --- Job Matching Logic ---
-    let jobs = [];
-    if(edu === "8" || edu === "10" || edu === "12" || edu === "graduate") {
-        jobs.push("<a href='https://indiapostgdsonline.gov.in/' target='_blank'>GDS भर्ती 2026 (Apply Now)</a>");
-    }
-    if(edu === "10" || edu === "12") {
-        jobs.push("<a href='https://hcraj.nic.in/' target='_blank'>High Court 4th Grade (Direct Apply)</a>");
-    }
-    if(edu === "12" || edu === "graduate") {
-        jobs.push("<a href='https://rsmssb.rajasthan.gov.in/' target='_blank'>Rajasthan Police / CET (Apply Here)</a>");
-    }
-    if(edu === "bed") {
-        jobs.push("<a href='https://education.rajasthan.gov.in/' target='_blank'>REET / शिक्षक भर्ती (Portal Link)</a>");
-    }
-    if(edu === "iti") {
-        jobs.push("<a href='#' target='_blank'>Railway Technician / ALP (Apply Link)</a>");
-    }
-
-    jobs.forEach(j => { jobList.innerHTML += `<li style='margin-bottom:8px;'>${j}</li>`; });
-
-    // --- Result Logic ---
-    let results = [
-        "<a href='http://rajresults.nic.in/'>RBSE 10th/12th Board Result 2026</a>",
-        "<a href='https://rsmssb.rajasthan.gov.in/'>RSMSSB पटवारी/LDC Final Result</a>",
-        "<a href='https://www.uniraj.ac.in/'>University Exam Results (BA/BSc)</a>"
-    ];
-    results.forEach(r => { resultList.innerHTML += `<li style='margin-bottom:8px;'>${r}</li>`; });
-}
-</script>
-
-  
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prex Guru Tools - राजस्थान भर्ती फोटो रिसाइज़र & Latest Jobs</title>
-    <meta name="description" content="GDS, राजस्थान पुलिस, हाई कोर्ट भर्ती के लिए फोटो को 20KB-50KB में बदलें। साथ ही पाएं ताज़ा सरकारी नौकरी अपडेट।">
-    
+    <title>Kisan Guru | किसानों का सच्चा साथी</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; text-align: center; margin: 0; padding: 0; }
-        .header { background: #007bff; color: white; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .notice-board { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; margin: 15px; border-radius: 10px; font-weight: bold; }
-        .card { background: white; max-width: 450px; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .upload-section { border: 2px dashed #007bff; padding: 20px; border-radius: 10px; margin: 20px 0; background: #f8fbff; }
-        #preview { max-width: 100%; border-radius: 8px; margin-top: 15px; display: none; }
-        .btn { background: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
-        .whatsapp-btn { background: #25D366; text-decoration: none; display: inline-block; margin-top: 20px; padding: 10px 20px; color: white; border-radius: 20px; font-weight: bold; }
-        .footer { margin-top: 30px; font-size: 12px; color: #777; padding-bottom: 20px; }
-        marquee { background: #d1ecf1; color: #0c5460; padding: 5px; }
+        :root { --primary: #2e7d32; --secondary: #ffa000; --bg: #f4f7f1; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        .header { background: var(--primary); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--secondary); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .update-bar { background: #333; color: #ffd54f; padding: 10px; font-weight: bold; }
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        
+        /* Grid System for Quick Links */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .menu-item { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; text-decoration: none; color: #333; }
+        .menu-item i { font-size: 30px; display: block; margin-bottom: 10px; }
+        
+        .card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
+        .btn-link { display: block; background: var(--primary); color: white; padding: 12px; text-align: center; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+        .mandi-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .mandi-table td, .mandi-table th { padding: 10px; border: 1px solid #eee; font-size: 14px; }
+        .mandi-table th { background: #f9f9f9; color: var(--primary); }
     </style>
 </head>
 <body>
 
-        <div class="header">
-        <img src="1773219505316.png" alt="Prex Guru Tools Logo" style="max-height: 120px; width: auto; background: white; padding: 5px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
-        <p style="margin-top: 10px; font-weight: bold; font-size: 1.2em;">राजस्थान भर्ती स्पेशल पोर्टल</p>
+    <div class="header">
+        <h1 style="margin: 0;">🚜 किसान गुरु</h1>
+        <p style="margin: 5px 0 0;">खेती की हर जानकारी, अब आपकी जेब में</p>
     </div>
 
-        <h1>Prex Guru Tools</h1>
-        <p>राजस्थान भर्ती स्पेशल पोर्टल</p>
+    <div class="update-bar">
+        <marquee>⚡ नई योजना: तारबंदी सब्सिडी के फॉर्म शुरू | ⛈️ चेतावनी: कल पाली क्षेत्र में हल्की बारिश की संभावना | 🌾 टोकन अपडेट: धान तुलाई केंद्र कल से खुलेंगे...</marquee>
     </div>
 
-    <marquee>🔥 लेटेस्ट अपडेट: राजस्थान हाई कोर्ट 4th Grade परीक्षा अप्रैल में | GDS नई लिस्ट जारी | SSC GD फिजिकल डेट आउट 🔥</marquee>
-
-    <div class="notice-board">
-        📢 <b>नोटिस बोर्ड:</b> <br>
-        1. राजस्थान पुलिस एडमिट कार्ड जल्द! <br>
-        2. पटवारी नई भर्ती नोटिफिकेशन जारी। <br>
-        3. फॉर्म भरने के लिए नीचे फोटो छोटा करें।
-    </div>
-
-    <div class="card">
-        <h2>Photo Resizer (20KB-50KB)</h2>
-        <div class="upload-section">
-            <input type="file" id="imageInput" accept="image/*">
-            <p>फोटो चुनें (GDS/Police/High Court)</p>
-        </div>
-
-        <img id="preview" src="" alt="Preview">
-        <p id="status"></p>
-
-        <button class="btn" id="downloadBtn" style="display:none;">कम्प्रेस फोटो डाउनलोड करें</button>
+    <div class="container">
         
-        <a id="waShare" class="whatsapp-btn" href="#" target="_blank">
-            📲 दोस्तों को WhatsApp पर भेजें
-        </a>
-    </div>
-
-    <div class="footer">
-        <p>Made with ❤️ by Prex Guru | Pali, Rajasthan</p>
-    </div>
-
-    <script>
-        const imageInput = document.getElementById('imageInput');
-        const preview = document.getElementById('preview');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const status = document.getElementById('status');
-        const waShare = document.getElementById('waShare');
-
-        // WhatsApp Share Link Setup
-        const siteUrl = window.location.href;
-        waShare.href = "https://api.whatsapp.com/send?text=भाई, सरकारी फॉर्म के लिए फोटो का साइज यहाँ से छोटा करो, बहुत मस्त साइट है: " + siteUrl;
-
-        imageInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function(event) {
-                const img = new Image();
-                img.src = event.target.result;
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    const scale = 600 / img.width;
-                    canvas.width = 600;
-                    canvas.height = img.height * scale;
-
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                    // क्वालिटी 0.3 रखी है ताकि साइज 20-40KB के बीच आए
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.3);
-                    
-                    preview.src = dataUrl;
-                    preview.style.display = 'block';
-                    status.innerText = "फोटो तैयार है! साइज कम कर दिया गया है।";
-
-                    downloadBtn.style.display = 'block';
-                    downloadBtn.onclick = function() {
-                        const link = document.createElement('a');
-                        link.download = 'prexguru_photo.jpg';
-                        link.href = dataUrl;
-                        link.click();
-                    };
-                };
-            };
-        });
-    </script>
-    </script>
-
-    <div style="margin-top: 20px; background: #333; color: white; padding: 10px; border-radius: 5px; display: inline-block;">
-        <p style="margin: 0; font-size: 14px;">कुल विज़िटर्स (Total Visitors):</p>
-        <div align="center">
-            <a href="https://www.freecounterstat.com" title="website counter">
-                <img src="https://counter11.optistats.ovh/private/freecounterstat.php?c=u1l3u6m8l5p1r9s7b5n3m1j8k6l4p2q9" border="0" title="website counter" alt="website counter">
-            </a>
-        </div>
-    </div>
-    <div class="card" style="border-top: 5px solid #28a745;">
-        <h2>Age Calculator (उम्र चेक करें)</h2>
-        <p>सरकारी फॉर्म के लिए अपनी सही उम्र निकालें</p>
-        
-        <div style="text-align: left; margin-bottom: 15px;">
-            <label>अपनी जन्म तिथि चुनें:</label>
-            <input type="date" id="dob" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
-        </div>
-        
-        <div style="text-align: left; margin-bottom: 20px;">
-            <label>किस तारीख तक चेक करना है:</label>
-            <input type="date" id="checkDate" value="2026-01-01" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+        <h3 style="color: #1b5e20; border-bottom: 2px solid #2e7d32; padding-bottom: 5px;">📍 खेत के दस्तावेज़ (E-Dharti)</h3>
+        <div class="grid">
+            <a href="https://apnakhata.rajasthan.gov.in/" class="menu-item">📄<br><b>जमाबंदी नकल</b></a>
+            <a href="https://dlr.rajasthan.gov.in/" class="menu-item">🚜<br><b>E-गिरदावरी</b></a>
+            <a href="#" class="menu-item">🎟️<br><b>धान तुलाई टोकन</b></a>
+            <a href="#" class="menu-item">⚖️<br><b>तुलाई केंद्र लिस्ट</b></a>
         </div>
 
-        <button class="btn" onclick="calculateAge()" style="background: #007bff;">उम्र कैलकुलेट करें</button>
-
-        <div id="ageResult" style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 10px; display: none;">
-            <h3 style="margin: 0; color: #333;" id="finalAge"></h3>
+        <div class="card">
+            <h3 style="margin-top:0; color: #ef6c00;">📊 आज के ताज़ा मंडी भाव</h3>
+            <table class="mandi-table">
+                <tr><th>फसल</th><th>मंडी</th><th>भाव (क्विंटल)</th></tr>
+                <tr><td>चना</td><td>पाली</td><td>₹5900 - ₹6250</td></tr>
+                <tr><td>जीरा</td><td>मेड़ता</td><td>₹25500 - ₹28200</td></tr>
+            </table>
         </div>
+
+        <div class="card" style="border-left-color: #0288d1;">
+            <h3 style="margin-top:0; color: #0288d1;">📜 सरकारी योजनाएं (सबसे पहले)</h3>
+            <ul style="padding-left: 20px; line-height: 1.8;">
+                <li>तारबंदी सब्सिडी (50% छूट) - <a href="#">लिंक</a></li>
+                <li>PM किसान KYC (अंतिम तिथि) - <a href="#">लिंक</a></li>
+                <li>कुसुम सोलर पंप योजना 2026 - <a href="#">लिंक</a></li>
+            </ul>
+        </div>
+
+        <div class="card" style="border-left-color: #8e24aa;">
+            <h3 style="margin-top:0; color: #8e24aa;">🏥 फसल और पशु डॉक्टर</h3>
+            <p style="font-size: 14px;">फसल में कीड़ा लगा है या पशु बीमार है? फोटो भेजें:</p>
+            <a href="https://wa.me/91XXXXXXXXXX" class="btn-link" style="background: #25d366;">WhatsApp पर समाधान पाएं</a>
+        </div>
+
     </div>
-    <script>
-    function calculateAge() {
-        const dob = new Date(document.getElementById('dob').value);
-        const checkDate = new Date(document.getElementById('checkDate').value);
 
-        if (isNaN(dob)) {
-            alert("कृपया सही जन्म तिथि भरें!");
-            return;
-        }
-
-        let years = checkDate.getFullYear() - dob.getFullYear();
-        let months = checkDate.getMonth() - dob.getMonth();
-        let days = checkDate.getDate() - dob.getDate();
-
-        if (days < 0) {
-            months--;
-            days += new Date(checkDate.getFullYear(), checkDate.getMonth(), 0).getDate();
-        }
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
-
-        const resultDiv = document.getElementById('ageResult');
-        const finalAgeText = document.getElementById('finalAge');
-        
-        resultDiv.style.display = 'block';
-        finalAgeText.innerHTML = `आपकी उम्र: <br><span style="color: #28a745;">${years} साल, ${months} महीने, ${days} दिन</span>`;
-    }
-    </script>
-
-</body>
-</html>
+    <footer style="background: #e0e0e0; padding: 20px; text-align: center; font-size: 14px;">
+        <b>© 2026 किसान गुरु | Prex Guru की नई सोच</b><br>
+        <p style="color: #666;">हर नियम और योजना की जानकारी सबसे पहले यहाँ!</p>
+    </footer>
 
 </body>
 </html>
