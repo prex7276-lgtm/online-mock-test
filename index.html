@@ -41,6 +41,11 @@
 </div>
 
 <button class="share-btn" onclick="shareWebsite()">📢 दोस्तों को शेयर करें</button>
+<div style="margin-top: 20px; font-size: 1rem; color: #f9e29a;">
+    <span style="border: 1px solid #cf9f2e; padding: 5px 15px; border-radius: 20px; background: rgba(207, 159, 46, 0.1);">
+        👁️ कुल विज़िटर्स: <span id="count">0</span>
+    </span>
+</div>
 
 <div class="footer">© 2026 Prex Guru | शुद्ध राजस्थानी तकनीक</div>
 
@@ -96,7 +101,16 @@
             navigator.clipboard.writeText(window.location.href);
             alert("लिंक कॉपी हो गया!");
         }
-    }
+    }// विज़िटर काउंटर लॉजिक (यह आपके ब्राउज़र की मेमोरी में सेव होगा)
+let visits = localStorage.getItem('visitorCount');
+if (visits === null) {
+    visits = 1;
+} else {
+    visits = parseInt(visits) + 1;
+}
+localStorage.setItem('visitorCount', visits);
+document.getElementById('count').innerText = visits;
+
 </script>
 
 </body>
