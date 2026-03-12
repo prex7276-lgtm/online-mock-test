@@ -252,20 +252,26 @@
             });
             
         // Results के लिए Sarkari Result का फीड
-        const resultsUrl = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.sarkariresult.com%2Frss%2F";
-        fetch(resultsUrl)
-            .then(res => res.json())
-            .then(data => {
-                let html = "";
-                data.items.slice(0, 10).forEach(item => {
-                    html += `<a href="${item.link}" target="_blank">✅ ${item.title}</a>`;
-                });
-                document.getElementById('rss-results').innerHTML = html;
-            });
-    }
+        // Results और Admit Cards के लिए नया और वर्किंग लिंक
+const resultsUrl = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.indgovtjobs.in%2Ffeeds%2Fposts%2Fdefault%2F-%2FAdmit%2520Card%3Falt%3Drss";
 
-    // पेज लोड होते ही डेटा लाओ
-    window.onload = fetchJobs;
+fetch(resultsUrl)
+    .then(res => res.json())
+    .then(data => {
+        let html = "";
+        if (data.items && data.items.length > 0) {
+            data.items.slice(0, 10).forEach(item => {
+                html += `<a href="${item.link}" target="_blank">✅ ${item.title}</a>`;
+            });
+        } else {
+            html = "<p style='color:grey; padding:10px;'>अभी कोई नया अपडेट नहीं है...</p>";
+        }
+        document.getElementById('rss-results').innerHTML = html;
+    })
+    .catch(err => {
+        document.getElementById('rss-results').innerHTML = "लिंक लोड करने में समस्या, रिफ्रेश करें।";
+    });
+
 </script>
 
 </body>
