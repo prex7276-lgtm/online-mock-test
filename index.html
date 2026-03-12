@@ -234,6 +234,39 @@
 </script>
 
 <script src="https://rss.bloople.net/?url=https%3A%2F%2Fwww.freejobalert.com%2Ffeed%2F&detail=-1&limit=12&showtitle=false&type=js&containerId=rss-jobs"></script>
+<script>
+    function fetchJobs() {
+        const feedUrl = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.freejobalert.com%2Ffeed%2F";
+        
+        fetch(feedUrl)
+            .then(res => res.json())
+            .then(data => {
+                let html = "";
+                data.items.slice(0, 10).forEach(item => {
+                    html += `<a href="${item.link}" target="_blank">🔥 ${item.title}</a>`;
+                });
+                document.getElementById('rss-jobs').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('rss-jobs').innerHTML = "नेटवर्क स्लो है, कृपया रिफ्रेश करें...";
+            });
+            
+        // Results के लिए Sarkari Result का फीड
+        const resultsUrl = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.sarkariresult.com%2Frss%2F";
+        fetch(resultsUrl)
+            .then(res => res.json())
+            .then(data => {
+                let html = "";
+                data.items.slice(0, 10).forEach(item => {
+                    html += `<a href="${item.link}" target="_blank">✅ ${item.title}</a>`;
+                });
+                document.getElementById('rss-results').innerHTML = html;
+            });
+    }
+
+    // पेज लोड होते ही डेटा लाओ
+    window.onload = fetchJobs;
+</script>
 
 </body>
 </html>
