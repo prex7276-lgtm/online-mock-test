@@ -3,93 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prex Guru - सरकारी टूलकिट</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Prex Guru - VIP Tools</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #0a0e17; color: white; margin: 0; text-align: center; }
+        header { background: linear-gradient(145deg, #1e293b, #020617); padding: 40px 10px; border-bottom: 3px solid #cf9f2e; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .vip-logo { font-size: 3.5rem; font-weight: bold; text-transform: uppercase; background: linear-gradient(to bottom, #cf9f2e 0%, #f9e29a 50%, #cf9f2e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; letter-spacing: 3px; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 30px; }
+        .tool-card { background: #16213e; border: 1px solid #cf9f2e; padding: 25px; border-radius: 15px; width: 300px; transition: 0.3s; }
+        input, button { width: 100%; margin: 10px 0; padding: 12px; border-radius: 8px; border: none; box-sizing: border-box; }
+        button { background: linear-gradient(45deg, #cf9f2e, #f9e29a); color: black; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .share-btn { width: auto; padding: 12px 40px; border-radius: 50px; margin-top: 20px; font-size: 1.1rem; border: 2px solid #cf9f2e; background: transparent; color: #f9e29a; }
+        .footer { margin-top: 30px; padding-bottom: 30px; color: #64748b; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
 
 <header>
-    <h1>Prex Guru Utility Tools</h1>
-    <p>फोटो रिसाइज, PDF कनवर्टर और बहुत कुछ!</p>
+    <h1 class="vip-logo">Prex Guru</h1>
+    <p>प्रीमियम टूलकिट • फोटो रिसाइज • PDF कनवर्टर</p>
 </header>
 
 <div class="container">
-    <section class="tool-card">
-        <h2>1. फोटो रिसाइज करें (KB में)</h2>
+    <div class="tool-card">
+        <h2>🖼️ फोटो रिसाइज</h2>
         <input type="file" id="resizeInput" accept="image/*">
         <input type="number" id="targetSize" placeholder="कितने KB चाहिए? (e.g. 50)">
         <button onclick="resizeImage()">रिसाइज और डाउनलोड</button>
-    </section>
+    </div>
 
-    <section class="tool-card">
-        <h2>2. Photo से PDF बनाएँ</h2>
+    <div class="tool-card">
+        <h2>📄 Photo से PDF</h2>
         <input type="file" id="pdfInput" accept="image/*" multiple>
         <button onclick="convertToPDF()">PDF डाउनलोड करें</button>
-    </section>
-
-    <section class="tool-card">
-        <h2>3. PDF को JPG में बदलें</h2>
-        <p><small>(नोट: इसके लिए ब्राउज़र में रेंडरिंग की जरूरत होती है)</small></p>
-        <input type="file" id="jpgInput" accept="application/pdf">
-        <button onclick="alert('यह फीचर जल्द आ रहा है!')">JPG में बदलें</button>
-    </section>
+    </div>
 </div>
 
-<script src="script.js"></script>
+<button class="share-btn" onclick="shareWebsite()">📢 दोस्तों को शेयर करें</button>
+
+<div class="footer">© 2026 Prex Guru | शुद्ध राजस्थानी तकनीक</div>
+
+<script>
+    async function resizeImage() {
+        const file = document.getElementById('resizeInput').files[0];
+        const targetKB = document.getElementById('targetSize').value;
+        if (!file || !targetKB) return alert("फोटो और KB चुनें!");
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width; canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                const link = document.createElement('a');
+                link.href = dataUrl;
+                link.download = `PrexGuru_Resized.jpg`;
+                link.click();
+            };
+        };
+    }
+
+    async function convertToPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const files = document.getElementById('pdfInput').files;
+        if (files.length === 0) return alert("फोटो चुनें!");
+        for (let i = 0; i < files.length; i++) {
+            const imgData = await new Promise(res => {
+                const reader = new FileReader();
+                reader.onload = (e) => res(e.target.result);
+                reader.readAsDataURL(files[i]);
+            });
+            if (i > 0) doc.addPage();
+            doc.addImage(imgData, 'JPEG', 10, 10, 190, 150);
+        }
+        doc.save("PrexGuru_Doc.pdf");
+    }
+
+    function shareWebsite() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Prex Guru VIP Tools',
+                text: 'भाई, फोटो रिसाइज और PDF बनाने के लिए ये बढ़िया है!',
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert("लिंक कॉपी हो गया!");
+        }
+    }
+</script>
+
 </body>
 </html>
-body { font-family: 'Segoe UI', sans-serif; background-color: #eef2f3; margin: 0; padding: 20px; text-align: center; }
-header { background: #2c3e50; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-.container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-.tool-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; }
-input, button { width: 90%; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
-button { background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; }
-button:hover { background: #219150; }
-// 1. Image Resize Function
-async function resizeImage() {
-    const file = document.getElementById('resizeInput').files[0];
-    const targetKB = document.getElementById('targetSize').value;
-    if (!file || !targetKB) return alert("फोटो और साइज चुनें!");
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target.result;
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            
-            // क्वालिटी कम करके साइज घटाना
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.7); 
-            const link = document.createElement('a');
-            link.href = dataUrl;
-            link.download = "prexguru_resized.jpg";
-            link.click();
-        };
-    };
-}
-
-// 2. Photo to PDF Function
-async function convertToPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const files = document.getElementById('pdfInput').files;
-
-    if (files.length === 0) return alert("फोटो चुनें!");
-
-    for (let i = 0; i < files.length; i++) {
-        const imgData = await new Promise(resolve => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.readAsDataURL(files[i]);
-        });
-        if (i > 0) doc.addPage();
-        doc.addImage(imgData, 'JPEG', 10, 10, 180, 160);
-    }
-    doc.save("prexguru_document.pdf");
-}
