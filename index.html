@@ -3,141 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prex Guru Exam Portal</title>
+    <title>Prex Guru | Premium Test Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --p-blue: #2c3e50; --s-blue: #3498db; --bg: #f4f7f6; --success: #27ae60; --danger: #e74c3c; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; }
-        header { background: var(--p-blue); color: white; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; border-bottom: 4px solid var(--s-blue); }
-        .container { max-width: 700px; margin: 20px auto; padding: 15px; }
-        
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-        .card { background: white; padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-weight: bold; border-top: 4px solid var(--s-blue); transition: 0.2s; }
-        .card:hover { transform: scale(1.02); background: var(--s-blue); color: white; }
+        :root { 
+            --primary: #0f172a; --accent: #f59e0b; --success: #10b981; --danger: #ef4444;
+            --glass: rgba(255, 255, 255, 0.95); --shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        body { font-family: 'Poppins', sans-serif; background: #e2e8f0; margin: 0; color: var(--primary); overflow-x: hidden; }
 
-        .quiz-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .option { padding: 12px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; margin-top: 10px; }
-        .option:hover { border-color: var(--s-blue); background: #f0f7ff; }
+        /* 🔥 Hero Section with Zoom Effect */
+        .hero { 
+            position: relative; background: #000; color: white; padding: 100px 20px; text-align: center;
+            border-bottom: 5px solid var(--accent); overflow: hidden;
+        }
+        .hero::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1590483259160-b98a10731a54?q=80&w=1600') no-repeat center center/cover;
+            opacity: 0.4; animation: zoomEffect 20s infinite alternate; z-index: 0;
+        }
+        @keyframes zoomEffect { from { transform: scale(1); } to { transform: scale(1.2); } }
+        .hero-content { position: relative; z-index: 2; }
+        .hero h1 { font-family: 'Oswald', sans-serif; font-size: 45px; margin: 0; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 20px var(--accent); }
+        .badge-free { background: var(--accent); color: #000; padding: 5px 15px; border-radius: 50px; font-weight: 800; font-size: 14px; margin-bottom: 15px; display: inline-block; }
+
+        .container { max-width: 1100px; margin: -50px auto 50px; padding: 0 20px; position: relative; z-index: 10; }
+
+        /* 🔥 Premium Card Grid */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .card { 
+            background: var(--glass); padding: 30px; border-radius: 24px; text-align: center; 
+            box-shadow: var(--shadow); transition: 0.4s; border: 1px solid rgba(255,255,255,0.3);
+        }
+        .card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .tag { font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 8px; margin-bottom: 10px; display: inline-block; }
+        .tag-free { background: #dcfce7; color: #166534; }
+        .tag-paid { background: #fee2e2; color: #991b1b; }
+
+        /* 🔥 Quiz UI */
+        .quiz-container { background: white; border-radius: 30px; padding: 40px; box-shadow: var(--shadow); }
+        .progress-bar { height: 8px; background: #f1f5f9; border-radius: 10px; margin-bottom: 30px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; }
+        .timer-box { font-family: 'Oswald', sans-serif; font-size: 28px; color: var(--danger); display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
         
-        #timer { font-size: 18px; font-weight: bold; color: var(--danger); text-align: right; margin-bottom: 10px; }
+        .option { 
+            padding: 18px 25px; border: 2px solid #e2e8f0; border-radius: 16px; margin-top: 15px; 
+            cursor: pointer; transition: 0.2s; font-size: 18px; display: flex; align-items: center;
+        }
+        .option:hover { background: #f0f7ff; border-color: var(--accent); }
+        .option.correct { background: #dcfce7; border-color: var(--success); color: #166534; }
+        .option.wrong { background: #fee2e2; border-color: var(--danger); color: #991b1b; }
+
+        .btn-main { background: var(--primary); color: white; padding: 12px 30px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
         .hidden { display: none; }
-        .back-btn { background: #95a5a6; color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<header>PREX GURU TEST PORTAL</header>
+<div class="hero" id="hero-banner">
+    <div class="hero-content">
+        <div class="badge-free">100% FREE PREPARATION</div>
+        <h1>PREX GURU TEST PORTAL</h1>
+        <p>वर्दी की कसम, अब तैयारी नहीं रुकेगी! बिना एक भी पैसा खर्च किये बनें फौजी।</p>
+    </div>
+</div>
 
 <div class="container">
     <div id="home-page">
-        <h3>एग्जाम चुनें:</h3>
+        <h2 style="text-align: center; margin: 50px 0 30px;">अपना लक्ष्य चुनें (Select Exam)</h2>
         <div class="card-grid">
-            <div class="card" onclick="showSubjects('Raj High Court')">Raj High Court</div>
-            <div class="card" onclick="showSubjects('Raj Police')">Rajasthan Police</div>
-            <div class="card" onclick="showSubjects('NEET')">NEET</div>
+            <div class="card" onclick="showTestList('Lab Assistant')"><div class="tag tag-free">FREE</div><div style="font-size: 50px;">🔬</div><h3>Lab Assistant</h3><button class="btn-main">प्रवेश करें</button></div>
+            <div class="card" onclick="showTestList('Indian Army')"><div class="tag tag-paid">PREMIUM</div><div style="font-size: 50px;">⚔️</div><h3>Indian Army</h3><button class="btn-main">प्रवेश करें</button></div>
+            <div class="card" onclick="showTestList('Indian Air Force')"><div class="tag tag-free">FREE</div><div style="font-size: 50px;">✈️</div><h3>Indian Air Force</h3><button class="btn-main">प्रवेश करें</button></div>
+            <div class="card" onclick="showTestList('Raj Police')"><div class="tag tag-free">FREE</div><div style="font-size: 50px;">👮</div><h3>Rajasthan Police</h3><button class="btn-main">प्रवेश करें</button></div>
+            <div class="card" onclick="showTestList('Raj High Court')"><div class="tag tag-free">FREE</div><div style="font-size: 50px;">⚖️</div><h3>Raj High Court</h3><button class="btn-main">प्रवेश करें</button></div>
+            <div class="card" onclick="showTestList('CET')"><div class="tag tag-paid">PREMIUM</div><div style="font-size: 50px;">📚</div><h3>CET Rajasthan</h3><button class="btn-main">प्रवेश करें</button></div>
         </div>
     </div>
 
-    <div id="subject-page" class="hidden">
-        <button class="back-btn" onclick="showPage('home-page')">← वापस</button>
-        <h3 id="selected-exam"></h3>
-        <div class="card-grid" id="sub-list"></div>
-    </div>
-
-    <div id="topic-page" class="hidden">
-        <button class="back-btn" onclick="showPage('subject-page')">← वापस</button>
-        <h3 id="selected-sub"></h3>
-        <div class="card-grid" id="topic-list"></div>
+    <div id="test-list-page" class="hidden">
+        <button class="btn-main" style="margin-bottom: 20px;" onclick="showPage('home-page')">← वापस</button>
+        <h2 id="selected-title"></h2>
+        <div class="card-grid" id="test-list-grid"></div>
     </div>
 
     <div id="test-page" class="hidden">
-        <div id="timer">समय: 20:00</div>
-        <div class="quiz-box">
-            <h4 id="q-count">सवाल 1/25</h4>
-            <p id="q-text" style="font-size: 18px; font-weight: bold;"></p>
+        <div class="quiz-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div id="q-counter" style="font-weight: 800; color: #64748b;">सवाल 1/25</div>
+                <div class="timer-box">⏱️ <span id="timer">20:00</span></div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+            <h2 id="q-text" style="font-size: 24px; margin-bottom: 30px;"></h2>
             <div id="options-box"></div>
         </div>
     </div>
 
     <div id="result-page" class="hidden">
-        <div class="card" style="cursor: default;">
-            <h2>परिणाम</h2>
-            <p id="final-score" style="font-size: 20px;"></p>
-            <button class="back-btn" style="background: #27ae60;" onclick="location.reload()">Home पर जाएं</button>
+        <div class="quiz-container" style="text-align: center;">
+            <div style="font-size: 80px;">🎯</div>
+            <h1>आपका परिणाम</h1>
+            <div id="final-score" style="font-size: 40px; font-weight: 800; color: var(--success); margin: 20px 0;"></div>
+            <button class="btn-main" onclick="location.reload()">होम पेज पर जाएं</button>
         </div>
     </div>
 </div>
 
 <script src="questions.js"></script>
-
 <script>
-    let currentQuestions = [];
-    let qIndex = 0;
-    let score = 0;
-    let timer;
+    let currentQuestions = [], qIndex = 0, score = 0, timerInterval;
 
     function showPage(id) {
         document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
+        document.getElementById('hero-banner').style.display = (id === 'test-page' || id === 'result-page') ? 'none' : 'block';
     }
 
-    function showSubjects(exam) {
-        document.getElementById('selected-exam').innerText = exam;
-        let subs = ["हिन्दी", "English", "Rajasthan GK"];
+    function showTestList(exam) {
+        document.getElementById('selected-title').innerText = exam + " : टेस्ट सीरीज";
         let html = "";
-        subs.forEach(s => html += `<div class="card" onclick="showTopics('${s}')">${s}</div>`);
-        document.getElementById('sub-list').innerHTML = html;
-        showPage('subject-page');
-    }
-
-    function showTopics(sub) {
-        document.getElementById('selected-sub').innerText = sub;
-        let topics = (sub === "हिन्दी") ? ["संधि", "समास", "पर्यायवाची"] : ["Topic 1", "Topic 2"];
-        let html = "";
-        topics.forEach(t => {
-            for(let i=1; i<=20; i++) {
-                html += `<div class="card" onclick="startTest('${sub}-${t}-${i}')">${t} - टेस्ट ${i}</div>`;
-            }
-        });
-        document.getElementById('topic-list').innerHTML = html;
-        showPage('topic-page');
+        for(let i=1; i<=10; i++) {
+            html += `<div class="card" onclick="startTest('${exam}-Mock-${i}')">
+                        <div class="tag tag-free">FREE TEST</div>
+                        <h3>Full Mock Test ${i}</h3>
+                        <button class="btn-main">Start Now</button>
+                     </div>`;
+        }
+        document.getElementById('test-list-grid').innerHTML = html;
+        showPage('test-list-page');
     }
 
     function startTest(id) {
         currentQuestions = allQuestions[id] || [];
-        if(currentQuestions.length === 0) return alert("इस टेस्ट के सवाल अभी अपडेट हो रहे हैं!");
-        
+        if(currentQuestions.length === 0) return alert("भाई, ये टेस्ट अभी अपडेट हो रहा है!");
         qIndex = 0; score = 0;
         showPage('test-page');
         loadQuestion();
-        // Timer Logic (20 min)
-        let time = 1200;
-        timer = setInterval(() => {
-            time--;
-            let m = Math.floor(time/60), s = time%60;
-            document.getElementById('timer').innerText = `समय: ${m}:${s<10?'0'+s:s}`;
-            if(time <= 0) endTest();
-        }, 1000);
+        startTimer(1200);
     }
 
     function loadQuestion() {
         let q = currentQuestions[qIndex];
-        document.getElementById('q-count').innerText = `सवाल ${qIndex+1}/${currentQuestions.length}`;
+        document.getElementById('q-counter').innerText = `सवाल ${qIndex+1} / ${currentQuestions.length}`;
         document.getElementById('q-text').innerText = q.q;
+        document.getElementById('progress').style.width = ((qIndex + 1) / currentQuestions.length) * 100 + "%";
         let html = "";
-        q.options.forEach((o, i) => html += `<div class="option" onclick="checkAns(${i})">${o}</div>`);
+        q.options.forEach((opt, i) => {
+            html += `<div class="option" onclick="selectOption(this, ${i})">
+                        <span style="width: 30px; height: 30px; border-radius: 50%; background: #eee; display: flex; align-items:center; justify-content: center; margin-right: 15px; font-weight: bold;">${i+1}</span>
+                        ${opt}
+                     </div>`;
+        });
         document.getElementById('options-box').innerHTML = html;
     }
 
-    function checkAns(idx) {
-        if(idx === currentQuestions[qIndex].correct) score++;
-        qIndex++;
-        if(qIndex < currentQuestions.length) loadQuestion(); else endTest();
+    function selectOption(el, idx) {
+        let correct = currentQuestions[qIndex].correct;
+        if(idx === correct) { el.classList.add('correct'); score++; }
+        else { el.classList.add('wrong'); document.querySelectorAll('.option')[correct].classList.add('correct'); }
+        setTimeout(() => {
+            qIndex++;
+            if(qIndex < currentQuestions.length) loadQuestion(); else endTest();
+        }, 800);
+    }
+
+    function startTimer(s) {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            s--;
+            let m = Math.floor(s/60), sec = s%60;
+            document.getElementById('timer').innerText = `${m}:${sec<10?'0'+sec:sec}`;
+            if(s <= 0) endTest();
+        }, 1000);
     }
 
     function endTest() {
-        clearInterval(timer);
+        clearInterval(timerInterval);
         showPage('result-page');
-        document.getElementById('final-score').innerText = `आपका स्कोर: ${score} / ${currentQuestions.length}`;
+        document.getElementById('final-score').innerText = `${score} / ${currentQuestions.length}`;
     }
 </script>
 </body>
